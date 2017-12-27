@@ -3,11 +3,13 @@ package com.wanghao.test;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
-import com.wanghao.ioc.PropertyValue;
-import com.wanghao.ioc.PropertyValues;
 import com.wanghao.ioc.factory.AutowireCapableBeanFactory;
 import com.wanghao.ioc.factory.BeanFactory;
+import com.wanghao.ioc.io.ResourceLoad;
+import com.wanghao.ioc.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
+
+import java.util.Map;
 
 /**
  * 创建一个测试类
@@ -19,35 +21,23 @@ public class BeanFactoryTest {
     
     
     @Test
-    public void test(){
+    public void test() throws Exception {
        
-        //1.创建BeanFactory
-        BeanFactory beanFactory=new AutowireCapableBeanFactory();
-
-        /**
-         *2.注入bean
-         * BeanDefinition 并不是真正的bean ,而是一个 对于bean对象的封装,
-         * BeanDefinition里面有真正的bean的内容,现在是我们传入给Factory class的全类名, 让BeanFactory自己通过反射去创建对象
-         * 
-         */
         
-        BeanDefinition beanDefinition=new BeanDefinition();
-        beanDefinition.setBeanClassName("com.wanghao.test.HelloWorldService");
+        
+        //1.读取配置文件
 
-
-        /**
-         * 3.属性设置
-         */
-
-        PropertyValues propertyValues=new PropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("text","hello wanghao"));
-        propertyValues.addPropertyValue(new PropertyValue("age",11));
-        beanDefinition.setPropertyValues(propertyValues);
-        //4.生成bean
-        beanFactory.registerBeanDefinition("helloWorld",beanDefinition);
+        XmlBeanDefinitionReader xmlBeanDefinitionReader=new XmlBeanDefinitionReader(new ResourceLoad());
+        xmlBeanDefinitionReader.loadBeanDefinitions("spring-root.xml");
+        
+        //2.初始化BeanFactory 并注册bean
+        BeanFactory beanFactory=new AutowireCapableBeanFactory();
+        for(Map.Entry<String,BeanDefinition> beanDefinitionEntry:xmlBeanDefinitionReader.getRegistry().entrySet()){
+            beanFactory.registerBeanDefinition(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
+        }
         
         //3.获取bean
-        HelloWorldService helloWorldService= (HelloWorldService) beanFactory.getBean("helloWorld");
+        HelloWorldService helloWorldService= (HelloWorldService) beanFactory.getBean("helloWorldService");
         helloWorldService.helloWorld();
     }
     

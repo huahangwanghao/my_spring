@@ -56,7 +56,21 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
             //对于这个Field 设置可以访问
             declaredField.setAccessible(true);            
             //
-            declaredField.set(bean,pv.getValue());
+            Object obj=null;
+            try {
+                 obj=Class.forName(declaredField.getType().toString()).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if(obj instanceof  String){
+                declaredField.set(bean,pv.getValue());    
+            }
+            else if(obj instanceof  Integer){
+                declaredField.setInt(bean,Integer.valueOf(pv.getValue().toString()));
+            }
+            
             
         }
         
