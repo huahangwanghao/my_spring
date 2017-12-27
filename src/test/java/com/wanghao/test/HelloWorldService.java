@@ -6,6 +6,6 @@ package com.wanghao.test;
 public class HelloWorldService {
 
     public void helloWorld(){
-        System.out.println("Hello World!");
+        System.out.println("Hello World!"); 
     }
 }
