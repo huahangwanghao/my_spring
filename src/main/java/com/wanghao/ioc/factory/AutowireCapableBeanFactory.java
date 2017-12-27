@@ -3,6 +3,9 @@ package com.wanghao.ioc.factory;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
+import com.wanghao.ioc.PropertyValue;
+
+import java.lang.reflect.Field;
 
 /**
  * @author WangH
@@ -20,14 +23,45 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
              * 然后在BeanDefinition里面的setBeanClassName 里面
              * this.beanClass=Class.forName(beanClassName); 顺路把beanClass也设置成功啦. 所以下面就可以获取到BeanClass
              */
-            Object obj=beanDefinition.getBeanClass().newInstance();
-            return obj;
+            Object bean=createBeanInstance(beanDefinition);
+            applyPropertyValues(bean,beanDefinition);
+            return bean;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
 
         return null;
     }
+    
+    protected  Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
+        return beanDefinition.getBeanClass().newInstance();
+    }
+
+    /**
+     * 
+     * @param bean  给他添加属性
+     * @param beanDefinition
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     */
+    protected  void applyPropertyValues(Object bean,BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException {
+        
+        for(PropertyValue pv:beanDefinition.getPropertyValues().getPropertyValueLists()){
+            //通过那个bean这个对象,能够得到这个对象的声明式属性, 通过属性名, 然后得到这个属性, 就是一个Field
+            Field declaredField=bean.getClass().getDeclaredField(pv.getName());
+            //对于这个Field 设置可以访问
+            declaredField.setAccessible(true);            
+            //
+            declaredField.set(bean,pv.getValue());
+            
+        }
+        
+        
+    }
+    
+    
 }

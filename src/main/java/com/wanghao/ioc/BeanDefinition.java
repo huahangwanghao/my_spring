@@ -18,6 +18,8 @@ public class BeanDefinition {
     
     private String beanClassName;
     
+    private PropertyValues propertyValues;
+    
     public BeanDefinition(){}
 
     public Object getBean() {
@@ -49,5 +51,13 @@ public class BeanDefinition {
             e.printStackTrace();
         }
         
+    }
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
     }
 }

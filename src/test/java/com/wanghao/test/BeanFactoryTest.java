@@ -3,6 +3,8 @@ package com.wanghao.test;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
+import com.wanghao.ioc.PropertyValue;
+import com.wanghao.ioc.PropertyValues;
 import com.wanghao.ioc.factory.AutowireCapableBeanFactory;
 import com.wanghao.ioc.factory.BeanFactory;
 import org.junit.Test;
@@ -31,6 +33,17 @@ public class BeanFactoryTest {
         
         BeanDefinition beanDefinition=new BeanDefinition();
         beanDefinition.setBeanClassName("com.wanghao.test.HelloWorldService");
+
+
+        /**
+         * 3.属性设置
+         */
+
+        PropertyValues propertyValues=new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("text","hello wanghao"));
+        propertyValues.addPropertyValue(new PropertyValue("age",11));
+        beanDefinition.setPropertyValues(propertyValues);
+        //4.生成bean
         beanFactory.registerBeanDefinition("helloWorld",beanDefinition);
         
         //3.获取bean
