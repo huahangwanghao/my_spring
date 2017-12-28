@@ -1,0 +1,83 @@
+if wrong code  you can user GBK
+
+
+
+AbstractBeanFactory:getBean()
+AutowireCapableBeanFactory:doCreateBean()   AutowireCapableBeanFactory里面的createBean
+AutowireCapableBeanFactory:createBeanInstance()  通过 beanDefinition.getBeanClass().newInstance() 反射得到一个对象 返回回去
+
+------------------------------------------读取配置----------------------------------------------------------------------
+
+XmlBeanDefinitionReader 在创建自己的时候 就传递进去一个 new ResourceLoad();
+XmlBeanDefinitionReader:loadBeanDefinitions(String location) 通过this.getClassPath....得到那个spring.xml 的inputStream流
+XmlBeanDefinitionReader:doLoadBeanDefinitions() 通过Document进行解析文件
+
+XmlBeanDefinitionReader:parseBeanDefinitions()  root 代表的是beans  这个标签  获取里面的所有bean标签 这里面循环调用processBeanDefinition() 
+XmlBeanDefinitionReader:processBeanDefinition()  在这个方法里面获取name  class 等配置的文件 然后自己new一个BeanDefinition.  new BeanDefinition()
+			 
+
+XmlBeanDefinitionReader:processProperty() 这里先进行设置属性.
+		   同样得到bean 里面的多个property 属性标签<property>标签
+		   然后判断是value还是ref
+		   如果是value 就在BeanDefinition的属性propertyValues里面添加一个List<propertyValue>
+		   如果是ref, 创建一个beanReference对象,同样是设置进行到propertyValues 这个属性上面
+		
+然后 BeanDefinition.setBeanClassName(class) 这样就相当于 BeanDefinition里面的className可以通过反射创建对象啦
+			  然后set到 bd.setBean();
+
+
+在 AbstractBeanDefinitionReader 抽象类里面 有一个Registry其实就是一个Map<String,BeanDefinition> 然后put进去,
+
+最后加载完成spring_root.xml之后 这个所有的对象都在 AbstractBeanDefinitionReader 的 registry 这个Map里面.
+
+注意: 这时候所有的真实对象还没有创建,只是创建了俩个 BeanDefinition(HelloworldService的和 outPutService的)
+
+
+------------------------------------------初始化BeanFactory 并注册bean------------------------------------------------------------
+
+AbstractBeanFactory beanFactory = new AutowireCapableBeanFactory(); 自己先创建一个工厂对象
+
+
+对于AbstractBeanDefinitionReader 里面的registry(Map<String,BeanDefinition>)进行循环迭代  
+{
+	"helloService":BeanDefinition 里面的className 是 com.wanghao.io.helloService,
+	"outputService":BeanDefinition 里面的className 是 com.wanghao.io.outputService
+}
+
+
+AbstractBeanFactory.registerBeanDefinition() 进行注册,放到了AbstractBeanFactory 里面的
+		beanDefinitionMap<String,BeanDefinition>
+		beanDefinitionNames里面
+
+
+
+AbstractBeanFactory.preInstantiateSingletons() 调用这个方法
+	会对beanDefinitionNames 里面的name进行遍历, 也就是得到
+
+AbstractBeanFactory.getBean() 方法
+	上那个beanDefinitionMap 里面去通过name 属性去查找BeanDefinition对象
+	如果找不到,抛出异常
+	如果找得到,去获取里面的bean对象,
+	如果获取不到 调用 doCreateBean()方法
+
+AutowireCapableBeanFactory.doCreateBean() 这个方法 第一步 
+	先通过反射创建一个Bean. 这个bean就是真实的bean(HelloService对象)
+	然后在BeanDefinition.setBean 把这个bean对象注册到BeanDefinition上面
+	第三部设置属性内容applyPropertyValues()
+
+AutowireCapableBeanFactory.applyPropertyValues() 对于属性赋值
+	现在而言所有的属性还都在BeanDefinition的属性propertyValues这个属性上面呢
+	然后通过反射得到这个bean上面声明的属性.然后设置可以访问
+	判断这个value是否是BeanReference.如果是
+	重点来了哈.....
+	value=
+	getBean(把ref的名字传递过去),然后在BeanDefinitionMap里面去查找是否有这个BeanDefinition
+	这个肯定有,然后去过去里面的bean,这个是获取不到的.找不到就 调用 doCreateBean()方法
+	(前提:outService里面有helloService的引用, helloService里面有outService的引用)
+	第一次是先创建outService.这时候设置ref helloService的时候 helloService的bean还没有被创建
+	于是调用doCreateBean 这个方法,调用的时候 也有一个引用,这时候需要outService的bean 这时候已经被创建啦
+	这样就helloService就创建好啦.创建好了后, 会把这个Bean返回到applyPropertyValues(outservice)这个方法里面
+	这时候helloservice这个bean也创建好啦.
+
+
+
