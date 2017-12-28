@@ -10,7 +10,6 @@
 
     <bean name="helloWorldService" class="com.wanghao.test.HelloWorldService">
         <property name="text" value="Hello World!"></property>
-        <property name="age" value="123"></property>
     </bean>
 
 </beans>
