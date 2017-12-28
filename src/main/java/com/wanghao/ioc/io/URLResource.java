@@ -17,7 +17,12 @@ public class URLResource implements Resource {
     public URLResource(URL url){
         this.url=url;
     }
-    
+
+    /**
+     *  这个得到一个输入流
+     * @return
+     * @throws Exception
+     */
     @Override
     public InputStream getInputStream() throws Exception {
         URLConnection urlConnection=url.openConnection();

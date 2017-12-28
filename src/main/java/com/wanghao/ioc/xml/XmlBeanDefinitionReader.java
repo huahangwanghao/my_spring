@@ -4,6 +4,7 @@ package com.wanghao.ioc.xml;/**
 
 import com.wanghao.ioc.AbstractBeanDefinitionReader;
 import com.wanghao.ioc.BeanDefinition;
+import com.wanghao.ioc.BeanReference;
 import com.wanghao.ioc.PropertyValue;
 import com.wanghao.ioc.io.ResourceLoad;
 import org.w3c.dom.Document;
@@ -30,18 +31,22 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     @Override
     public void loadBeanDefinitions(String location) throws Exception {
+        //得到那个spring_root.xml的输入流啦.
         InputStream inputStream=getResourceLoad().getResource(location).getInputStream();
         doLoadBeanDefinitions(inputStream);
     }
 
     /**
      * 加载beanDefination
+     * 对于配置文件进行解析
      * @param inputStream
      */
     private void doLoadBeanDefinitions(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder=factory.newDocumentBuilder();
+        //通过inputStream 然后加上Document工具 得到一个Document对象
         Document document= documentBuilder.parse(inputStream);
+        //对于Document对象进行解析
         registerBeanDefinitions(document);
         inputStream.close();
     }
@@ -51,6 +56,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * @param document
      */
     private void registerBeanDefinitions(Document document) {
+      //把document元素转换为Element对象啦  
       Element root=  document.getDocumentElement();
       parseBeanDefinitions(root);
     }
@@ -60,10 +66,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
      * @param root
      */
     private void parseBeanDefinitions(Element root) {
-        
-        NodeList lists=root.getChildNodes();
-        for(int i=0;i<lists.getLength();i++){
-            Node node=lists.item(i);
+        //获取下面所有的子节点
+        NodeList nodeList=root.getChildNodes();
+        for(int i=0;i<nodeList.getLength();i++){
+            Node node=nodeList.item(i);
             if(node instanceof  Element){
                 Element element = (Element) node;
                 processBeanDefinition(element);
@@ -101,7 +107,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 Element propertyElement= (Element) node;
                 String name=propertyElement.getAttribute("name");
                 String value=propertyElement.getAttribute("value");
-                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,value));
+                if(value!=null && value.length()>0){
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,value));
+                }else{
+                    String ref=propertyElement.getAttribute("ref");
+                    if(ref==null || ref.length()<=0){
+                        throw  new IllegalArgumentException("配置问题,您的<property>元素里面"+name+"必须指定name 或者 ref 属性");
+                    }
+                    BeanReference beanReference=new BeanReference(ref);
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,beanReference));
+                }
             }
         }
         

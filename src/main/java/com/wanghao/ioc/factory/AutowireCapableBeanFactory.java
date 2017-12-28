@@ -3,6 +3,7 @@ package com.wanghao.ioc.factory;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
+import com.wanghao.ioc.BeanReference;
 import com.wanghao.ioc.PropertyValue;
 
 import java.lang.reflect.Field;
@@ -54,8 +55,14 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
             //通过那个bean这个对象,能够得到这个对象的声明式属性, 通过属性名, 然后得到这个属性, 就是一个Field
             Field declaredField=bean.getClass().getDeclaredField(pv.getName());
             //对于这个Field 设置可以访问
-            declaredField.setAccessible(true);            
-            declaredField.set(bean,pv.getValue());    
+            declaredField.setAccessible(true);       
+            Object value=pv.getValue();
+            if(value instanceof BeanReference){
+                BeanReference beanReference= (BeanReference) value;
+                //通过name获取到对象的方法
+                value=getBean(beanReference.getName());
+            }
+            declaredField.set(bean,value);    
             
         }
     }
