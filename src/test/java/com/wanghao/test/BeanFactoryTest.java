@@ -33,7 +33,7 @@ public class BeanFactoryTest {
         XmlBeanDefinitionReader xmlBeanDefinitionReader=new XmlBeanDefinitionReader(new ResourceLoad());
         /**
          * 加载配置文件
-         * 1.
+         * 1. 到这一步 对象都创建成功啦.但是里面的属性
          */
         xmlBeanDefinitionReader.loadBeanDefinitions("spring-root.xml");
         

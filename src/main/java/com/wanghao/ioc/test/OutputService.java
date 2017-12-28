@@ -8,6 +8,12 @@ package com.wanghao.ioc.test;/**
  **/
 public class OutputService {
     private HelloWorldService helloWorldService;
+    
+    private String name;
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void output(String text){
         System.out.println("outputservice");

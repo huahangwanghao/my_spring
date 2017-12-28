@@ -29,6 +29,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         super(resourceLoad);
     }
 
+    /**
+     * 
+     * @param location
+     * @throws Exception
+     */
     @Override
     public void loadBeanDefinitions(String location) throws Exception {
         //得到那个spring_root.xml的输入流啦.
@@ -68,10 +73,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private void parseBeanDefinitions(Element root) {
         //获取下面所有的子节点
         NodeList nodeList=root.getChildNodes();
+        System.out.println("解析dom文档:"+nodeList.getLength()+""+root.getNodeName());
         for(int i=0;i<nodeList.getLength();i++){
             Node node=nodeList.item(i);
             if(node instanceof  Element){
                 Element element = (Element) node;
+                System.out.println("获取到element->>>>"+element.getNodeName()+"|||"+element.getAttribute("name"));
                 processBeanDefinition(element);
             }
         }
@@ -101,9 +108,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private void processProperty(Element element, BeanDefinition beanDefinition) {
         
         NodeList propertyList=element.getElementsByTagName("property");
+        System.out.println("<bean><property>的个数:"+propertyList.getLength());
         for(int i=0;i<propertyList.getLength();i++){
             Node node=propertyList.item(i);
             if(node instanceof  Element){
+                System.out.println("property的name属性值--->"+((Element) node).getAttribute("name"));
                 Element propertyElement= (Element) node;
                 String name=propertyElement.getAttribute("name");
                 String value=propertyElement.getAttribute("value");

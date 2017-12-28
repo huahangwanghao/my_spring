@@ -11,6 +11,10 @@ import java.lang.reflect.Field;
 /**
  * @author WangH
  * @create 2017-12-27 14:49
+ * 
+ * 这是一个BeanFactory, bean的工厂 继承抽象类 AbstractBeanFactory  实现接口 BeanFactory
+ * 
+ * 
  **/
 public class AutowireCapableBeanFactory extends AbstractBeanFactory{
     @Override
@@ -25,6 +29,7 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
              * this.beanClass=Class.forName(beanClassName); 顺路把beanClass也设置成功啦. 所以下面就可以获取到BeanClass
              */
             Object bean=createBeanInstance(beanDefinition);
+            beanDefinition.setBean(bean);
             applyPropertyValues(bean,beanDefinition);
             return bean;
         } catch (InstantiationException e) {
