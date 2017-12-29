@@ -79,5 +79,60 @@ AutowireCapableBeanFactory.applyPropertyValues() 对于属性赋值
 	这样就helloService就创建好啦.创建好了后, 会把这个Bean返回到applyPropertyValues(outservice)这个方法里面
 	这时候helloservice这个bean也创建好啦.
 
+----------------------用ApplicationContext进行解析文件------------------------------------
+
+对于抽象类,或者说是父类来说哈,  在父类里面写的方法, 在子类里面可以随便调用,并且不用再写代码啦.
+
+1.ApplicationContext 是一个接口, 继承了 BeanFactory接口 这个ApplicationContext里面什么都没有
+
+2.AbstractApplicationContext 是一个抽象类 继承了 ApplicationContext 接口
+	这个里面有一个属性是  AbstractBeanFactory , 也就是说 有一个工厂的属性 这个工厂的属性在构造函数里面初始化
+	因为BeanFactory 里面有一个方法是 Object getBean(String name),  在这个抽象类里面实现这个方法  
+	@Override 
+	public Object getBean(String name){
+		return beanFactory.getBean(name);
+	}
+
+	在这个抽象类里面有一个方法叫 void reFresh();
+
+3.ClassPathXmlApplicationContext 这个类 继承了 AbstractApplicationContext 这个抽象类
+	这个类里面有一个属性
+	private String location; //就是那个 spring_root.xml的
+	在调用构造方法的时候,需要传递进来一个String location
+	然后在构造方法里面 new AutoWirexxxBeanFactory()对象.
+	// F 这个是内部调用的
+	public ClassPathXmlApplicationContext(AbstractBeanFactory beanFactory, String configLocation) throws  Exception {
+        super(beanFactory);
+        this.configLocation = configLocation;
+        refresh();
+	 }
+	// S 下面这个是暴露给外界的构造函数
+	    public ClassPathXmlApplicationContext(String configLocation) throws  Exception {
+		this(new AutowireCapableBeanFactory(),configLocation);
+		System.out.println("ClassPathXmlApplicationContext 构造函数"+configLocation);
+
+	    }
+	F里面 先把父类的构造出来, 这样父类AbstractApplicationContext 就初始化好啦
+	然后调用refresh这个方法
+	创建一个XMLBeanDefinitionReader 对象, new 一个ResourceLoad()
+	把 spring_root.xml传递给创建一个XMLBeanDefinitionReader.loadBeanDefinitions 这个方法 把对象都放到了BeanFactory里面的
+	属性Map<String,BeanDefinition> 里面啦.
+	然后再通过 AbstractBeanFactory 把  new BeanDefinition 好的 放到Map<String,BeanDefinition> beanDefinitionMap 这个里面
+	最后 通过ApplicationContext.getBean的时候 最终的代码还是通过 AbstractBeanFactory .getBean 去它本身的 beanDefinitionMap 里面拿
+
+	
+		
+
+
+
+4.插入一句题外话:抽象类自身不可以实例化,但是其子类覆盖了所有的抽象方法后,是可以实例化的.所以抽象类的构造函数,适用于给其子类对象进行
+初始化用.
+如果在抽象类中,显示的写了有参数的构造函数,那么子类继承了就必须写一个构造函数来调用父类的构造函数
+对于this的调用,必须是在构造器中的第一个语句.
+
+
+
+
+
 
 
