@@ -3,7 +3,8 @@ package com.wanghao.ioc.aop;/**
  */
 
 /**
- * 被代理的对象
+ * 被代理的对象的一种包装
+ * 里面包含了 target对象 和 targetClass
  * @author WangH
  * @create 2017-12-29 14:27
  **/
@@ -13,7 +14,7 @@ public class TargetSource {
     
     private Object target;
 
-    public TargetSource(Class targetClass, Object target) {
+    public TargetSource( Object target,Class targetClass) {
         this.targetClass = targetClass;
         this.target = target;
     }

@@ -8,6 +8,11 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 
 /**
+ * 
+ * 这个类实现方法调用接口
+ * 主要的作用就是对于方法的封装
+ * 包含  目标类, 方法, 参数
+ * 主要的作用是为了InvocationHandler的实现类中的 Object invoke(MethodInvocation invocation)   提供材料
  * @author WangH
  * @create 2017-12-29 14:29
  **/
@@ -20,6 +25,12 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
     
     private Object[] args;
 
+    /***
+     * 把目标类, 方法对象, 参数都传递过来啦
+     * @param target
+     * @param method
+     * @param args
+     */
     public ReflectiveMethodInvocation(Object target, Method method, Object[] args) {
         this.target = target;
         this.method = method;
@@ -30,13 +41,12 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
      * Gets the method being called.
      * <p>
      * <p>This method is a frienly implementation of the {@link
-     * Joinpoint#getStaticPart()} method (same result).
      *
      * @return the method being called.
      */
     @Override
     public Method getMethod() {
-        return null;
+        return method;
     }
 
     /**
@@ -48,10 +58,11 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
      */
     @Override
     public Object[] getArguments() {
-        return new Object[0];
+        return args;
     }
 
     /**
+     * 通过反射去调用方法
      * Proceeds to the next interceptor in the chain.
      * <p>
      * <p>The implementation and the semantics of this method depends
@@ -62,7 +73,7 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
      */
     @Override
     public Object proceed() throws Throwable {
-        return null;
+       return method.invoke(target,args);
     }
 
     /**
@@ -76,17 +87,12 @@ public class ReflectiveMethodInvocation implements MethodInvocation {
      */
     @Override
     public Object getThis() {
-        return null;
+        return target;
     }
 
-    /**
-     * Returns the static part of this joinpoint.
-     * <p>
-     * <p>The static part is an accessible object on which a chain of
-     * interceptors are installed.
-     */
+   
     @Override
     public AccessibleObject getStaticPart() {
-        return null;
+        return method;
     }
 }

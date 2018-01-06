@@ -11,7 +11,7 @@
        <property name="helloWorldService" ref="helloWorldService"></property>
         <property name="name" value="outputName"></property>
     </bean>
-    <bean name="helloWorldService" class="com.wanghao.ioc.beans.test.HelloWorldService">
+    <bean name="helloWorldService" class="com.wanghao.ioc.beans.test.HelloWorldServiceImpl">
         <property name="text" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
