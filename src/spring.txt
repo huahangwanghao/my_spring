@@ -9,6 +9,9 @@ git tag -a addxmlconf 51a6daad112c9624da34410b3a716b6c4614643d -m '增加xml配置文
 
 git tag -a addApplicationContext eacfb475c97dbdd6c66b6b96d81f1dc9cbaa196b -m '增加ApplicationContext'
 
+git tag -a aop-step1 5f965dfc5a27eaa9f2072b138e8272f4f8127ca5 -m '简单的aop功能'
+
+
 
 
 tiny-spring

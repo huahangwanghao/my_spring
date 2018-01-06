@@ -40,6 +40,12 @@
                 <artifactId>aopalliance</artifactId>
                 <version>1.0</version>
             </dependency>
+            <!--增加aspectJ 功能-->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.6.11</version>
+            </dependency>
         </dependencies>
 
     <build>
