@@ -1,4 +1,4 @@
-package com.wanghao.ioc.io;
+package com.wanghao.ioc.beans.io;
 
 import java.io.InputStream;
 

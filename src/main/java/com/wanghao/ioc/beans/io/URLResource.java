@@ -1,4 +1,4 @@
-package com.wanghao.ioc.io;/**
+package com.wanghao.ioc.beans.io;/**
  * Created by Administrator on 2017/12/27.
  */
 

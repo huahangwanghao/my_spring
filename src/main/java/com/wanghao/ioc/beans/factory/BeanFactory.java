@@ -1,4 +1,4 @@
-package com.wanghao.ioc.factory;
+package com.wanghao.ioc.beans.factory;
 
 import com.wanghao.ioc.BeanDefinition;
 

@@ -1,8 +1,8 @@
 package com.wanghao.test;
 
-import com.wanghao.ioc.context.ApplicationContext;
-import com.wanghao.ioc.context.ClassPathXmlApplicationContext;
-import com.wanghao.ioc.test.HelloWorldService;
+import com.wanghao.ioc.beans.context.ApplicationContext;
+import com.wanghao.ioc.beans.context.ClassPathXmlApplicationContext;
+import com.wanghao.ioc.beans.test.HelloWorldService;
 import org.junit.Test;
 
 /**

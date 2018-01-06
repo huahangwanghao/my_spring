@@ -7,11 +7,11 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-    <bean name="outputService" class="com.wanghao.ioc.test.OutputService">
+    <bean name="outputService" class="com.wanghao.ioc.beans.test.OutputService">
        <property name="helloWorldService" ref="helloWorldService"></property>
         <property name="name" value="outputName"></property>
     </bean>
-    <bean name="helloWorldService" class="com.wanghao.ioc.test.HelloWorldService">
+    <bean name="helloWorldService" class="com.wanghao.ioc.beans.test.HelloWorldService">
         <property name="text" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>

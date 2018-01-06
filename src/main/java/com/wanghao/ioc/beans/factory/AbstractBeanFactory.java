@@ -1,4 +1,4 @@
-package com.wanghao.ioc.factory;/**
+package com.wanghao.ioc.beans.factory;/**
  * Created by Administrator on 2017/12/27.
  */
 

@@ -1,12 +1,12 @@
-package com.wanghao.ioc.context;/**
+package com.wanghao.ioc.beans.context;/**
  * Created by Administrator on 2017/12/29.
  */
 
 import com.wanghao.ioc.BeanDefinition;
-import com.wanghao.ioc.factory.AbstractBeanFactory;
-import com.wanghao.ioc.factory.AutowireCapableBeanFactory;
-import com.wanghao.ioc.io.ResourceLoad;
-import com.wanghao.ioc.xml.XmlBeanDefinitionReader;
+import com.wanghao.ioc.beans.factory.AbstractBeanFactory;
+import com.wanghao.ioc.beans.io.ResourceLoad;
+import com.wanghao.ioc.beans.xml.XmlBeanDefinitionReader;
+import com.wanghao.ioc.beans.factory.AutowireCapableBeanFactory;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.wanghao.ioc.test;/**
+package com.wanghao.ioc.beans.test;/**
  * Created by Administrator on 2017/12/28.
  */
 

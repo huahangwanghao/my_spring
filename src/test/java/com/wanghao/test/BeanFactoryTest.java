@@ -3,11 +3,11 @@ package com.wanghao.test;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
-import com.wanghao.ioc.factory.AutowireCapableBeanFactory;
-import com.wanghao.ioc.factory.BeanFactory;
-import com.wanghao.ioc.io.ResourceLoad;
-import com.wanghao.ioc.test.HelloWorldService;
-import com.wanghao.ioc.xml.XmlBeanDefinitionReader;
+import com.wanghao.ioc.beans.factory.AutowireCapableBeanFactory;
+import com.wanghao.ioc.beans.factory.BeanFactory;
+import com.wanghao.ioc.beans.io.ResourceLoad;
+import com.wanghao.ioc.beans.test.HelloWorldService;
+import com.wanghao.ioc.beans.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 
 import java.util.Map;

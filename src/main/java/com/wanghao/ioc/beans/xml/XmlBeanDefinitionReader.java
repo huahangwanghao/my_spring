@@ -1,4 +1,4 @@
-package com.wanghao.ioc.xml;/**
+package com.wanghao.ioc.beans.xml;/**
  * Created by Administrator on 2017/12/27.
  */
 
@@ -6,7 +6,7 @@ import com.wanghao.ioc.AbstractBeanDefinitionReader;
 import com.wanghao.ioc.BeanDefinition;
 import com.wanghao.ioc.BeanReference;
 import com.wanghao.ioc.PropertyValue;
-import com.wanghao.ioc.io.ResourceLoad;
+import com.wanghao.ioc.beans.io.ResourceLoad;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

@@ -7,6 +7,8 @@ git tag -a setFieldValue 1a2a7a6653af68d01b5869c38103c127357d7b84 -m '给对象属性
 
 git tag -a addxmlconf 51a6daad112c9624da34410b3a716b6c4614643d -m '增加xml配置文件'
 
+git tag -a addApplicationContext eacfb475c97dbdd6c66b6b96d81f1dc9cbaa196b -m '增加ApplicationContext'
+
 
 
 tiny-spring

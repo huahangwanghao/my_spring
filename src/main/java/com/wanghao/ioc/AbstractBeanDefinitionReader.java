@@ -2,7 +2,7 @@ package com.wanghao.ioc;/**
  * Created by Administrator on 2017/12/27.
  */
 
-import com.wanghao.ioc.io.ResourceLoad;
+import com.wanghao.ioc.beans.io.ResourceLoad;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,8 +1,8 @@
-package com.wanghao.ioc.context;/**
+package com.wanghao.ioc.beans.context;/**
  * Created by Administrator on 2017/12/29.
  */
 
-import com.wanghao.ioc.factory.BeanFactory;
+import com.wanghao.ioc.beans.factory.BeanFactory;
 
 /**
  * @author WangH  
