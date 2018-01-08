@@ -23,14 +23,14 @@ public class AspectJExpressPointCutTest {
         
     }
     
+    //下面这个表达式 必须具体到某各类的的具体包名下面
     @Test
     public void testMethodFilter()throws  Exception{
-        String express="execution(* com.wanghao.*.*(..))";
+        String express="execution(* com.wanghao.ioc.beans.test.*.*(..))";
         AspectJExpressionPointCut aspectJExpressionPointCut=new AspectJExpressionPointCut();
         aspectJExpressionPointCut.setExpression(express);
         boolean matches=aspectJExpressionPointCut.getMethodMatcher().matches(HelloWorldServiceImpl.class.getDeclaredMethod("helloWorld"), HelloWorldServiceImpl.class);
         Assert.assertTrue(matches);
-        System.out.println(matches);
     }
     
     

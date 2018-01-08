@@ -60,4 +60,19 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     }
     
     public abstract  Object doCreateBean(BeanDefinition beanDefinition);
+    
+    
+    public List getBeansForType(Class type)throws  Exception{
+        
+        List beans=new ArrayList();
+        for(String beanDefinitonName:beanDefinitionNames){
+            //type.isAssignableFrom Class1.isAssignableFrom(Class2)    用于判断 Class1 和Class2 是否相同,或者Class2是否是Class1另一个类的子类或者接口
+            if(type.isAssignableFrom(beanDefinitionMap.get(beanDefinitonName).getBeanClass())){
+                beans.add(getBean(beanDefinitonName));
+            }
+        }
+        
+        return beans;
+    }
+    
 }

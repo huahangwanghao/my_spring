@@ -10,18 +10,28 @@ package com.wanghao.ioc.aop;/**
  **/
 public class TargetSource {
 
-    private Class targetClass;
+    private Class<?> targetClass;
+    
+    private Class<?> [] interfaces;
     
     private Object target;
 
-    public TargetSource( Object target,Class targetClass) {
-        this.targetClass = targetClass;
-        this.target = target;
-    }
-
-    public Class getTargetClass() {
+    public Class<?> getTargetClass() {
         return targetClass;
     }
+
+    public void setTargetClass(Class<?> targetClass) {
+        this.targetClass = targetClass;
+    }
+
+    public Class<?>[] getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(Class<?>[] interfaces) {
+        this.interfaces = interfaces;
+    }
+
 
     public Object getTarget() {
         return target;
