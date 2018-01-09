@@ -8,7 +8,6 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 
 /**
  * @author WangH
@@ -51,9 +50,4 @@ public class AspectJAroundAdvice implements MethodInterceptor,Advice {
         return aspectJAdviceMethod.invoke(beanFactory.getBean(aspectInstanceName),invocation);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        System.out.println("执行前时间"+new Date());
-        Thread.sleep(2000);
-        System.out.println("执行后时间"+new Date());
-    }
 }

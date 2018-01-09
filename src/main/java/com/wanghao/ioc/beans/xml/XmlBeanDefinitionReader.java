@@ -7,6 +7,8 @@ import com.wanghao.ioc.BeanDefinition;
 import com.wanghao.ioc.BeanReference;
 import com.wanghao.ioc.PropertyValue;
 import com.wanghao.ioc.beans.io.ResourceLoad;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,7 +26,7 @@ import java.io.InputStream;
  * @create 2017-12-27 17:24
  **/
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
-
+    Logger log= LoggerFactory.getLogger(XmlBeanDefinitionReader.class);
     public XmlBeanDefinitionReader(ResourceLoad resourceLoad) {
         super(resourceLoad);
     }
@@ -73,12 +75,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private void parseBeanDefinitions(Element root) {
         //获取下面所有的子节点
         NodeList nodeList=root.getChildNodes();
-        System.out.println("解析dom文档:"+nodeList.getLength()+""+root.getNodeName());
+        log.info("解析dom文档:"+nodeList.getLength()+""+root.getNodeName());
         for(int i=0;i<nodeList.getLength();i++){
             Node node=nodeList.item(i);
             if(node instanceof  Element){
                 Element element = (Element) node;
-                System.out.println("获取到element->>>>"+element.getNodeName()+"|||"+element.getAttribute("name"));
+                log.info("获取到element->>>>"+element.getNodeName()+"|||"+element.getAttribute("id"));
                 processBeanDefinition(element);
             }
         }
@@ -108,11 +110,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private void processProperty(Element element, BeanDefinition beanDefinition) {
         
         NodeList propertyList=element.getElementsByTagName("property");
-        System.out.println("<bean><property>的个数:"+propertyList.getLength());
         for(int i=0;i<propertyList.getLength();i++){
             Node node=propertyList.item(i);
             if(node instanceof  Element){
-                System.out.println("property的name属性值--->"+((Element) node).getAttribute("name"));
                 Element propertyElement= (Element) node;
                 String name=propertyElement.getAttribute("name");
                 String value=propertyElement.getAttribute("value");

@@ -24,7 +24,6 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     }
 
     public void helloWorld(){
-        System.out.println("查看我被调用了几次!!!");
         outputService.output(this.text);
     }
 

@@ -22,7 +22,6 @@ public class JdkAopProxyText {
         ApplicationContext app=new ClassPathXmlApplicationContext("spring-root.xml");
         HelloWorldService helloWorldService= (HelloWorldService) app.getBean("helloWorldService");
         helloWorldService.helloWorld();
-        System.out.println("----------------with AOP-------------|");
 
 
         //创建一个代理的支持类

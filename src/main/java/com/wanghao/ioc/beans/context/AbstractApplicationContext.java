@@ -16,7 +16,6 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
     protected AbstractBeanFactory beanFactory;
 
     public AbstractApplicationContext(AbstractBeanFactory beanFactory) {
-        System.out.println("AbstractApplicationContext 构造函数"+beanFactory);
         this.beanFactory = beanFactory;
     }
     

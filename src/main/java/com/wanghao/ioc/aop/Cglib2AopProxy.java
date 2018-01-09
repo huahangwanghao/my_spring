@@ -26,9 +26,9 @@ public class Cglib2AopProxy extends  AbstractAopProxy {
         enhancer.setSuperclass(advised.getTargetSource().getTargetClass());
         enhancer.setInterfaces(advised.getTargetSource().getInterfaces());
         enhancer.setCallback(new DynamicAdvisedInterceptor(advised));
+        Object obj=enhancer.create();
         
-        
-        return null;
+        return obj;
     }
     
     

@@ -11,17 +11,20 @@ import com.wanghao.ioc.beans.test.HelloWorldService;
 import com.wanghao.ioc.beans.test.HelloWorldServiceImpl;
 import com.wanghao.ioc.beans.test.TimeInterceptor;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author WangH
  * @create 2018-01-09 11:07
  **/
 public class Cglib2AopProxyTest {
-    
+    Logger logger= LoggerFactory.getLogger(Cglib2AopProxyTest.class);
     
     @Test
     public void testInterceptor() throws  Exception{
 
+        logger.info("test");
         ApplicationContext application=new ClassPathXmlApplicationContext("spring-root.xml");
         HelloWorldService helloWorldService= (HelloWorldService) application.getBean("helloWorldService");
         helloWorldService.helloWorld();
