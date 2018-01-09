@@ -1,7 +1,5 @@
 package com.wanghao.ioc.beans.factory;
 
-import com.wanghao.ioc.BeanDefinition;
-
 /**
  * Created by Administrator on 2017/12/27.
  * 
@@ -12,7 +10,7 @@ import com.wanghao.ioc.BeanDefinition;
  */
 public interface BeanFactory {
     Object getBean(String name);
-    void registerBeanDefinition(String name, BeanDefinition beanDefinition);
+   /* void registerBeanDefinition(String name, BeanDefinition beanDefinition);
 
-    void preInstantiateSingletons();
+    void preInstantiateSingletons();*/
 }

@@ -28,7 +28,7 @@ public class JdkAopProxyText {
         //创建一个代理的支持类
         AdvisedSupport advisedSupport=new AdvisedSupport();
         //TargetSource 是被代理对象的一种封装
-        TargetSource targetSource=new TargetSource(helloWorldService,HelloWorldService.class);
+        TargetSource targetSource=new TargetSource(null,null,HelloWorldService.class);
         //让代理类 里面有了被代理对象
         advisedSupport.setTargetSource(targetSource);
         

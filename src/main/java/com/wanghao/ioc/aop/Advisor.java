@@ -7,7 +7,7 @@ import org.aopalliance.aop.Advice;
  * Created by Administrator on 2018/1/6.
  */
 public interface Advisor  {
-    
+    //从顾问这里得到建议....逗比
     Advice getAdvice();
     
 }

@@ -7,11 +7,11 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-    <bean name="outputService" class="com.wanghao.ioc.beans.test.OutputService">
+    <bean id="outputService" class="com.wanghao.ioc.beans.test.OutputService">
        <property name="helloWorldService" ref="helloWorldService"></property>
         <property name="name" value="outputName"></property>
     </bean>
-    <bean name="helloWorldService" class="com.wanghao.ioc.beans.test.HelloWorldServiceImpl">
+    <bean id="helloWorldService" class="com.wanghao.ioc.beans.test.HelloWorldServiceImpl">
         <property name="text" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
@@ -21,4 +21,9 @@
     </bean>
 
     <bean id="autoProxyCreator" class="com.wanghao.ioc.aop.AspectJAwareAdvisorAutoProxyCreator"></bean>
+    
+    <bean id="aspectjAspect" class="com.wanghao.ioc.aop.AspectJExpressPointCutAdvisor">
+        <property name="advice" ref="timeInterceptor"></property>
+        <property name="expression" value="execution(* com.wanghao.test.*.*(..))"></property>
+    </bean>
 </beans>

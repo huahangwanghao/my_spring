@@ -3,8 +3,8 @@ package com.wanghao.test;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
+import com.wanghao.ioc.beans.factory.AbstractBeanFactory;
 import com.wanghao.ioc.beans.factory.AutowireCapableBeanFactory;
-import com.wanghao.ioc.beans.factory.BeanFactory;
 import com.wanghao.ioc.beans.io.ResourceLoad;
 import com.wanghao.ioc.beans.test.HelloWorldService;
 import com.wanghao.ioc.beans.xml.XmlBeanDefinitionReader;
@@ -38,7 +38,7 @@ public class BeanFactoryTest {
         xmlBeanDefinitionReader.loadBeanDefinitions("spring-root.xml");
         
         //2.初始化BeanFactory 并注册bean
-        BeanFactory beanFactory=new AutowireCapableBeanFactory();
+        AbstractBeanFactory beanFactory=new AutowireCapableBeanFactory();
         for(Map.Entry<String,BeanDefinition> beanDefinitionEntry:xmlBeanDefinitionReader.getRegistry().entrySet()){
             beanFactory.registerBeanDefinition(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
         }

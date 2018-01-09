@@ -3,6 +3,7 @@ package com.wanghao.ioc.beans.factory;/**
  */
 
 import com.wanghao.ioc.BeanDefinition;
+import com.wanghao.ioc.beans.BeanPostProcessor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,6 +21,8 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     private Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<String, BeanDefinition>();
     //所有bean 的名字都放在 这个list里面
     private final List<String> beanDefinitionNames=new ArrayList<String>();
+    
+    private List<BeanPostProcessor> beanPostProcessors=new ArrayList<BeanPostProcessor>();
 
     /**
      * 在工厂里面获取Bean对象
@@ -43,11 +46,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         return bean;
     }
 
-    @Override
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition) {
-        /*Object bean=doCreateBean(beanDefinition);
-        beanDefinition.setBean(bean);
-        */
         beanDefinitionMap.put(name,beanDefinition);
         beanDefinitionNames.add(name);
     }
@@ -58,7 +57,12 @@ public abstract class AbstractBeanFactory implements BeanFactory {
             getBean(beanName);
         }
     }
-    
+
+    /**
+     * 抽象方法, 具体实现留给下面具体的类
+     * @param beanDefinition
+     * @return
+     */
     public abstract  Object doCreateBean(BeanDefinition beanDefinition);
     
     
@@ -73,6 +77,23 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         }
         
         return beans;
+    }
+    
+    
+    protected  Object initializeBean(Object bean,String name) throws Exception {
+        for (BeanPostProcessor beanPostProcessor:beanPostProcessors){
+            bean=beanPostProcessor.postProcessBeforeInittialization(bean,name);
+        }
+        //TODO call init method
+        for (BeanPostProcessor beanPostProcessor:beanPostProcessors){
+            bean=beanPostProcessor.postProcessAfterInittialization(bean,name);
+        }
+
+        return bean;
+    }
+    
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor)throws  Exception{
+        this.beanPostProcessors.add(beanPostProcessor);
     }
     
 }

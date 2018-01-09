@@ -15,11 +15,11 @@ import org.aopalliance.intercept.MethodInterceptor;
  * @create 2017-12-29 14:27
  **/
 public class AdvisedSupport {
-    
+    //被代理对象的所有内容
     private TargetSource targetSource;
     
     private MethodInterceptor methodInterceptor;
-    
+    // 切方法的时候 用得到 
     private MethodMatcher methodMatcher;
 
 

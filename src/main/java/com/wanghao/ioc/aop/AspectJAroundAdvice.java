@@ -48,7 +48,7 @@ public class AspectJAroundAdvice implements MethodInterceptor,Advice {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        return null;
+        return aspectJAdviceMethod.invoke(beanFactory.getBean(aspectInstanceName),invocation);
     }
 
     public static void main(String[] args) throws InterruptedException {

@@ -32,7 +32,7 @@ public class JdkDynamicPopProxy implements AopProxy,InvocationHandler {
          * Class<?>[] interfaces:目标对象实现的接口的类型,使用泛型方式确认类型,简单理解目标对象的类型, 因为是基于接口的, 如果不是基于接口 会报错 not a interface
          * InvocationHandler h: 这里传递的是this   会调用下面的 invoke 方法
          */
-        return Proxy.newProxyInstance(getClass().getClassLoader(),advisedSupport.getTargetSource().getTargetClass(),this);
+        return Proxy.newProxyInstance(getClass().getClassLoader(),advisedSupport.getTargetSource().getInterfaces(),this);
     }
 
    

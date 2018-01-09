@@ -19,11 +19,11 @@ import java.lang.reflect.Method;
 public class ReflectiveMethodInvocation implements MethodInvocation {
     
     
-    private Object target;
+    public Object target;
     
-    private Method method;
+    public Method method;
     
-    private Object[] args;
+    public Object[] args;
 
     /***
      * 把目标类, 方法对象, 参数都传递过来啦

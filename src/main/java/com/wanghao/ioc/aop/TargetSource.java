@@ -16,22 +16,19 @@ public class TargetSource {
     
     private Object target;
 
-    public Class<?> getTargetClass() {
-        return targetClass;
+    public TargetSource(Object target,Class<?> targetClass,  Class<?>... interfaces) {
+        this.targetClass = targetClass;
+        this.interfaces = interfaces;
+        this.target = target;
     }
 
-    public void setTargetClass(Class<?> targetClass) {
-        this.targetClass = targetClass;
+    public Class<?> getTargetClass() {
+        return targetClass;
     }
 
     public Class<?>[] getInterfaces() {
         return interfaces;
     }
-
-    public void setInterfaces(Class<?>[] interfaces) {
-        this.interfaces = interfaces;
-    }
-
 
     public Object getTarget() {
         return target;
