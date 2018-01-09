@@ -20,12 +20,8 @@
         
     </bean>
 
-    <bean id="autoProxyCreator" class="com.wanghao.ioc.aop.AspectJAwareAdvisorAutoProxyCreator"></bean>
     
-    <bean id="aspectjAspect" class="com.wanghao.ioc.aop.AspectJExpressPointCutAdvisor">
-        <property name="advice" ref="timeInterceptor"></property>
-        <property name="expression" value="execution(* com.wanghao.test.*.*(..))"></property>
-    </bean>
-    
+   
+    <bean id="beanInitProcessorLogger" class="com.wanghao.ioc.beans.BeanInitProcessorLogger"></bean>
     
 </beans>

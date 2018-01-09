@@ -22,7 +22,7 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
     public ClassPathXmlApplicationContext(AbstractBeanFactory beanFactory, String configLocation) throws  Exception {
         super(beanFactory);
         this.configLocation = configLocation;
-        refresh();
+        super.refresh();
     }
 
     public ClassPathXmlApplicationContext(String configLocation) throws  Exception {

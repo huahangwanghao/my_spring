@@ -5,8 +5,12 @@ package com.wanghao.ioc.beans.factory;/**
 import com.wanghao.ioc.BeanDefinition;
 import com.wanghao.ioc.BeanReference;
 import com.wanghao.ioc.PropertyValue;
+import com.wanghao.ioc.aop.BeanFactoryAware;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * @author WangH
@@ -17,35 +21,10 @@ import java.lang.reflect.Field;
  * 
  **/
 public class AutowireCapableBeanFactory extends AbstractBeanFactory{
-    @Override
-    public Object doCreateBean(BeanDefinition beanDefinition) {
 
-
-        try {
-            /**
-             * 这个在test里面已经先设置了有一个setBeanClass的操作啦.
-             * setBeanClassName("com.wanghao.test.HelloWorldService");
-             * 然后在BeanDefinition里面的setBeanClassName 里面
-             * this.beanClass=Class.forName(beanClassName); 顺路把beanClass也设置成功啦. 所以下面就可以获取到BeanClass
-             */
-            Object bean=createBeanInstance(beanDefinition);
-            beanDefinition.setBean(bean);
-            applyPropertyValues(bean,beanDefinition);
-            return bean;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
+    Logger logger= LoggerFactory.getLogger(AutowireCapableBeanFactory.class);
     
-    protected  Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
-        return beanDefinition.getBeanClass().newInstance();
-    }
+    
 
     /**
      * 
@@ -54,20 +33,38 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
      * @throws NoSuchFieldException
      * @throws IllegalAccessException
      */
-    protected  void applyPropertyValues(Object bean,BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException {
+    @Override
+    protected  void applyPropertyValues(Object bean,BeanDefinition beanDefinition) throws Exception {
+
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware)bean).setBeanFactory(this);
+        }
         
         for(PropertyValue pv:beanDefinition.getPropertyValues().getPropertyValueLists()){
-            //通过那个bean这个对象,能够得到这个对象的声明式属性, 通过属性名, 然后得到这个属性, 就是一个Field
-            Field declaredField=bean.getClass().getDeclaredField(pv.getName());
-            //对于这个Field 设置可以访问
-            declaredField.setAccessible(true);       
+            
             Object value=pv.getValue();
-            if(value instanceof BeanReference){
+           if(value instanceof BeanReference){
                 BeanReference beanReference= (BeanReference) value;
                 //通过name获取到对象的方法
                 value=getBean(beanReference.getName());
             }
-            declaredField.set(bean,value);    
+            
+            try {
+                String setName="set"+pv.getName().substring(0,1).toUpperCase()+pv.getName().substring(1);
+                Method method=bean.getClass().getDeclaredMethod(setName,value.getClass());
+                method.setAccessible(true);
+                method.invoke(bean,value);
+                logger.info("setMethod Name is:"+setName);
+
+            }catch (Exception e){
+                //通过那个bean这个对象,能够得到这个对象的声明式属性, 通过属性名, 然后得到这个属性, 就是一个Field
+                Field declaredField=bean.getClass().getDeclaredField(pv.getName());
+                //对于这个Field 设置可以访问
+                declaredField.setAccessible(true);
+                declaredField.set(bean,value);
+            }
+           
+          
             
         }
     }

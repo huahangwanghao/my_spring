@@ -6,6 +6,8 @@ import com.wanghao.ioc.beans.BeanPostProcessor;
 import com.wanghao.ioc.beans.factory.AbstractBeanFactory;
 import com.wanghao.ioc.beans.factory.BeanFactory;
 import org.aopalliance.intercept.MethodInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  * @create 2018-01-06 15:34
  **/
 public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor,BeanFactoryAware {
+    Logger logger= LoggerFactory.getLogger(AspectJAwareAdvisorAutoProxyCreator.class);
     //注入一个beanFactory
     private AbstractBeanFactory beanFactory;
     
@@ -24,12 +27,13 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor,Be
 
     @Override
     public Object postProcessBeforeInittialization(Object bean, String beanName) throws Exception {
+        logger.info(beanName+"postProcessBeforeInittialization  is called");
         return bean;
     }
 
     @Override
     public Object postProcessAfterInittialization(Object bean, String beanName) throws Exception {
-        
+        logger.info(beanName+"postProcessAfterInittialization  is called");
         if(bean instanceof  AspectJExpressionPointCut){
             return bean;
         }

@@ -18,7 +18,7 @@ public class AspectJExpressPointCutAdvisor implements  PointCutAdvisor {
         this.advice = advice;
     }
     
-    public void setExpress(String express){
+    public void setExpression(String express){
         pointCut.setExpression(express);
     }
 

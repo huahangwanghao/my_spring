@@ -30,7 +30,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @return
      */
     @Override
-    public Object getBean(String name) {
+    public Object getBean(String name) throws Exception {
         //在那个map里面通过name获取bean对象的封装对象
         BeanDefinition beanDefinition=beanDefinitionMap.get(name);
         if(beanDefinition == null){
@@ -42,16 +42,36 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         if(bean ==null ){
             //如果是空的,进行创建对象
             bean=doCreateBean(beanDefinition);
+            bean=initializeBean(bean,name);
+            beanDefinition.setBean(bean);
         }
         return bean;
     }
 
+
+    protected  Object initializeBean(Object bean,String name) throws Exception {
+        for (BeanPostProcessor beanPostProcessor:beanPostProcessors){
+            bean=beanPostProcessor.postProcessBeforeInittialization(bean,name);
+        }
+        //TODO call init method
+        for (BeanPostProcessor beanPostProcessor:beanPostProcessors){
+            bean=beanPostProcessor.postProcessAfterInittialization(bean,name);
+        }
+
+        return bean;
+    }
+
+
+    protected  Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
+        return beanDefinition.getBeanClass().newInstance();
+    }
+    
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition) {
         beanDefinitionMap.put(name,beanDefinition);
         beanDefinitionNames.add(name);
     }
     
-    public void preInstantiateSingletons() {
+    public void preInstantiateSingletons() throws Exception {
         for(Iterator it=this.beanDefinitionNames.iterator();it.hasNext();){
             String beanName= (String) it.next();
             getBean(beanName);
@@ -59,13 +79,55 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     }
 
     /**
-     * 抽象方法, 具体实现留给下面具体的类
+     * 通过beanDefinition 得到里面对象的bean对象
      * @param beanDefinition
      * @return
      */
-    public abstract  Object doCreateBean(BeanDefinition beanDefinition);
-    
-    
+    public Object doCreateBean(BeanDefinition beanDefinition) {
+
+
+        try {
+            /**
+             * 这个在test里面已经先设置了有一个setBeanClass的操作啦.
+             * setBeanClassName("com.wanghao.test.HelloWorldService");
+             * 然后在BeanDefinition里面的setBeanClassName 里面
+             * this.beanClass=Class.forName(beanClassName); 顺路把beanClass也设置成功啦. 所以下面就可以获取到BeanClass
+             */
+            Object bean=createBeanInstance(beanDefinition);
+            beanDefinition.setBean(bean);
+            applyPropertyValues(bean,beanDefinition);
+            return bean;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    protected abstract void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws  Exception;
+
+
+    /**
+     * 对于beanPostProcessors里面添加BeanPostProcessor
+     * @param beanPostProcessor
+     * @throws Exception
+     */
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor)throws  Exception{
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    /**
+     * 通过Class 获取Bean的list
+     * 对于List beanDefinitionNames 里面所有的Name进行遍历,如果 type是它们的父类,或者相同,
+     * 就把所有的对象都返回回去.
+     * @param type
+     * @return
+     * @throws Exception
+     */
     public List getBeansForType(Class type)throws  Exception{
         
         List beans=new ArrayList();
@@ -79,21 +141,10 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         return beans;
     }
     
+   
     
-    protected  Object initializeBean(Object bean,String name) throws Exception {
-        for (BeanPostProcessor beanPostProcessor:beanPostProcessors){
-            bean=beanPostProcessor.postProcessBeforeInittialization(bean,name);
-        }
-        //TODO call init method
-        for (BeanPostProcessor beanPostProcessor:beanPostProcessors){
-            bean=beanPostProcessor.postProcessAfterInittialization(bean,name);
-        }
 
-        return bean;
-    }
-    
-    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor)throws  Exception{
-        this.beanPostProcessors.add(beanPostProcessor);
-    }
+
+
     
 }
