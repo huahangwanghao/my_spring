@@ -27,13 +27,13 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor,Be
 
     @Override
     public Object postProcessBeforeInittialization(Object bean, String beanName) throws Exception {
-        logger.info(beanName+"postProcessBeforeInittialization  is called");
+        logger.info(beanName+" postProcessBeforeInittialization  is called");
         return bean;
     }
 
     @Override
     public Object postProcessAfterInittialization(Object bean, String beanName) throws Exception {
-        logger.info(beanName+"postProcessAfterInittialization  is called");
+        logger.info(beanName+" postProcessAfterInittialization  is called");
         if(bean instanceof  AspectJExpressionPointCut){
             return bean;
         }
@@ -42,7 +42,8 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor,Be
         }
         
         List<AspectJExpressPointCutAdvisor> advisors=beanFactory.getBeansForType(AspectJExpressPointCutAdvisor.class);
-        for(AspectJExpressPointCutAdvisor advisor:advisors){
+        //for(AspectJExpressPointCutAdvisor advisor:advisors){
+        for(PointCutAdvisor advisor:advisors){
             if(advisor.getPointCut().getClassFilter().matches(bean.getClass())){
                 AdvisedSupport advisedSupport=new AdvisedSupport();
                 //TODO 没有搞明白

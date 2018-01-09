@@ -9,6 +9,12 @@ package com.wanghao.ioc.beans.factory;
  * 
  */
 public interface BeanFactory {
+    /**
+     * 通过name 在BeanFactory里面获取对象
+     * @param name
+     * @return
+     * @throws Exception
+     */
     Object getBean(String name) throws Exception;
    /* void registerBeanDefinition(String name, BeanDefinition beanDefinition);
 

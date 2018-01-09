@@ -62,6 +62,13 @@ public abstract class AbstractBeanFactory implements BeanFactory {
     }
 
 
+    /***
+     * 通过反射创建对象.
+     * @param beanDefinition
+     * @return
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
     protected  Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
         return beanDefinition.getBeanClass().newInstance();
     }
@@ -70,7 +77,11 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         beanDefinitionMap.put(name,beanDefinition);
         beanDefinitionNames.add(name);
     }
-    
+
+    /**
+     * 可以理解为单例模式吗??
+     * @throws Exception
+     */
     public void preInstantiateSingletons() throws Exception {
         for(Iterator it=this.beanDefinitionNames.iterator();it.hasNext();){
             String beanName= (String) it.next();
@@ -108,11 +119,18 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         return null;
     }
 
+    /**
+     * 对于Bean的属性赋值, 所有的值都在BeanDefinition里面.
+     * @param bean
+     * @param beanDefinition
+     * @throws Exception
+     */
     protected abstract void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws  Exception;
 
 
     /**
-     * 对于beanPostProcessors里面添加BeanPostProcessor
+     * 通过读取配置文件
+     * ,对于beanPostProcessors里面添加BeanPostProcessor
      * @param beanPostProcessor
      * @throws Exception
      */

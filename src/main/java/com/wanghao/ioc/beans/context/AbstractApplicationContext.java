@@ -24,12 +24,25 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         registerBeanPostProcessors(beanFactory);
         onRefresh();
     }
-    
-    
-    protected  abstract  void loadBeanDefinitions(AbstractBeanFactory beanFactory) throws Exception;
-    
 
+    /**
+     * 就是把所有的对象都放到BeanFactory里面的beanDefinitionMap,beanDefinitionNames
+     * 按照配置文件都增加好啦./
+     * @param beanFactory
+     * @throws Exception
+     */
+    protected  abstract  void loadBeanDefinitions(AbstractBeanFactory beanFactory) throws Exception;
+
+
+    /**
+     * 
+     * @param beanFactory
+     * @throws Exception
+     */
     protected  void registerBeanPostProcessors(AbstractBeanFactory beanFactory)throws Exception{
+        /**
+         *第一次还真有一个AspectJAwareAdvisorAutoProxyCreator,也是在spring的配置文件里面配置好的 
+         */
         List beanPostProcessors=beanFactory.getBeansForType(BeanPostProcessor.class); 
         for(Object beanPostProcessor:beanPostProcessors){
             beanFactory.addBeanPostProcessor((BeanPostProcessor) beanPostProcessor);

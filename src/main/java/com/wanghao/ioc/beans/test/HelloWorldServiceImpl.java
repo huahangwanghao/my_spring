@@ -11,13 +11,10 @@ public class HelloWorldServiceImpl implements HelloWorldService {
 
     private String text;
 
-    private int age;
 
     private OutputService outputService;
 
-    public String getText() {
-        return text;
-    }
+
 
     public void setText(String text) {
         this.text = text;
@@ -27,9 +24,6 @@ public class HelloWorldServiceImpl implements HelloWorldService {
         outputService.output(this.text);
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     public void setOutputService(OutputService outputService) {
         this.outputService = outputService;

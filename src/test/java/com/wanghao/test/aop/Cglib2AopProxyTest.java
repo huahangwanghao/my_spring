@@ -8,7 +8,6 @@ import com.wanghao.ioc.aop.TargetSource;
 import com.wanghao.ioc.beans.context.ApplicationContext;
 import com.wanghao.ioc.beans.context.ClassPathXmlApplicationContext;
 import com.wanghao.ioc.beans.test.HelloWorldService;
-import com.wanghao.ioc.beans.test.HelloWorldServiceImpl;
 import com.wanghao.ioc.beans.test.TimeInterceptor;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class Cglib2AopProxyTest {
         
         //--------------------------------------------------------
         AdvisedSupport advisedSupport=new AdvisedSupport();
-        TargetSource targetSource=new TargetSource(helloWorldService,HelloWorldServiceImpl.class,HelloWorldService.class);
+        TargetSource targetSource=new TargetSource(helloWorldService,HelloWorldService.class,HelloWorldService.class);
         advisedSupport.setTargetSource(targetSource);
 
         TimeInterceptor timeInterceptor=new TimeInterceptor();

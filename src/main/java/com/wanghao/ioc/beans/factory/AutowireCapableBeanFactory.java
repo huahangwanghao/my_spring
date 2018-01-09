@@ -35,7 +35,8 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory{
      */
     @Override
     protected  void applyPropertyValues(Object bean,BeanDefinition beanDefinition) throws Exception {
-
+        //如果这个bean 是  BeanFactoryAware的子类 其实这里就是AspectJAwareAdvisorAutoProxyCreator
+        //其实也就是xml里面的 autoProxyCreator
         if (bean instanceof BeanFactoryAware) {
             ((BeanFactoryAware)bean).setBeanFactory(this);
         }

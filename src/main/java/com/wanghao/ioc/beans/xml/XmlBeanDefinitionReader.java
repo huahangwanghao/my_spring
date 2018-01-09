@@ -98,6 +98,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         BeanDefinition beanDefinition=new BeanDefinition();
         processProperty(element,beanDefinition);
         beanDefinition.setBeanClassName(className);
+        //registry 是一个Map<String,BeanDefinition>  里面也是
         getRegistry().put(name,beanDefinition);
         
     }

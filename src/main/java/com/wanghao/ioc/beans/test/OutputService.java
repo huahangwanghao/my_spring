@@ -13,11 +13,9 @@ public class OutputService {
     Logger log= LoggerFactory.getLogger(OutputService.class);
     private HelloWorldService helloWorldService;
     
-    private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
+
 
     public void output(String text){
         log.info("outputservice");

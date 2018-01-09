@@ -29,9 +29,14 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
         this(new AutowireCapableBeanFactory(),configLocation);
 
     }
-    
-  
 
+
+    /**
+     * 就是把所有的对象都放到BeanFactory里面的beanDefinitionMap,beanDefinitionNames
+     * 按照配置文件都增加好啦./
+     * @param beanFactory
+     * @throws Exception
+     */
     @Override
     protected void loadBeanDefinitions(AbstractBeanFactory beanFactory) throws Exception {
         XmlBeanDefinitionReader xmlBeanDefinitionReader=new XmlBeanDefinitionReader(new ResourceLoad());
