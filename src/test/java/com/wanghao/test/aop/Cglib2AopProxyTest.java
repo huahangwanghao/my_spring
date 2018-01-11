@@ -23,10 +23,9 @@ public class Cglib2AopProxyTest {
     @Test
     public void testInterceptor() throws  Exception{
 
-        logger.info("test");
         ApplicationContext application=new ClassPathXmlApplicationContext("spring-root.xml");
         HelloWorldService helloWorldService= (HelloWorldService) application.getBean("helloWorldService");
-        helloWorldService.helloWorld();
+        //helloWorldService.helloWorld();
         
         //--------------------------------------------------------
         AdvisedSupport advisedSupport=new AdvisedSupport();

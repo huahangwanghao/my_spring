@@ -19,11 +19,11 @@
         
     </bean>
 
-    <bean id="autoProxyCreator" class="com.wanghao.ioc.aop.AspectJAwareAdvisorAutoProxyCreator"></bean>
+    <bean id="aspectJAwareAdvisorAutoProxyCreator" class="com.wanghao.ioc.aop.AspectJAwareAdvisorAutoProxyCreator"></bean>
     
-    <bean id="aspectjAspect" class="com.wanghao.ioc.aop.AspectJExpressPointCutAdvisor">
+    <bean id="aspectJExpressPointCutAdvisor" class="com.wanghao.ioc.aop.AspectJExpressPointCutAdvisor">
         <property name="advice" ref="timeInterceptor"></property>
-        <property name="expression" value="execution(* com.wanghao.test.*.*(..))"></property>
+        <property name="expression" value="execution(* us.wanghao.test.*.*(..))"></property>
     </bean>
     
     

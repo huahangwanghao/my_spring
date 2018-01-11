@@ -4,6 +4,8 @@ package com.wanghao.ioc.beans.factory;/**
 
 import com.wanghao.ioc.BeanDefinition;
 import com.wanghao.ioc.beans.BeanPostProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create 2017-12-27 14:42
  **/
 public abstract class AbstractBeanFactory implements BeanFactory {
+    Logger logger= LoggerFactory.getLogger(AbstractBeanFactory.class);
     //所有的bean都放在这个属性里面
     private Map<String,BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<String, BeanDefinition>();
     //所有bean 的名字都放在 这个list里面
@@ -31,6 +34,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      */
     @Override
     public Object getBean(String name) throws Exception {
+        logger.info("getBean 传递进来的name是 : "+name);
         //在那个map里面通过name获取bean对象的封装对象
         BeanDefinition beanDefinition=beanDefinitionMap.get(name);
         if(beanDefinition == null){
@@ -45,6 +49,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
             bean=initializeBean(bean,name);
             beanDefinition.setBean(bean);
         }
+        logger.info("getBean 返回的bean是 : "+bean);
         return bean;
     }
 
